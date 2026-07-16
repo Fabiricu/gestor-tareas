@@ -30,39 +30,148 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px;
 }
 
 .auth-container {
-    min-height: 100vh;
+    width: 100%;
     display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-container .row {
+    width: 100%;
+}
+
+.auth-container .col-md-5 {
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
 .auth-card {
     border: none;
-    border-radius: 15px;
+    border-radius: 20px;
     transition: all 0.3s ease;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
 .auth-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3) !important;
 }
 
-.auth-card .form-control-lg,
-.auth-card .btn-lg {
+.auth-card .card-body {
+    padding: 50px 40px;
+}
+
+.auth-card .form-label {
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.auth-card .form-control {
+    border: 2px solid #e0e0e0;
     border-radius: 10px;
-    padding: 0.75rem 1.25rem;
+    padding: 12px 16px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    height: auto;
 }
 
 .auth-card .form-control:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
+    outline: none;
+}
+
+.auth-card .form-control-lg {
+    padding: 14px 18px;
+    font-size: 1.05rem;
+    border-radius: 10px;
+}
+
+.auth-card .input-group .form-control {
+    border-right: none;
+}
+
+.auth-card .input-group .btn {
+    border: 2px solid #e0e0e0;
+    border-radius: 0 10px 10px 0;
+    background: white;
+    color: #666;
+    transition: all 0.3s ease;
 }
 
 .auth-card .input-group .btn:hover {
-    background-color: var(--primary) !important;
+    background-color: var(--primary);
     color: white;
+    border-color: var(--primary);
+}
+
+.auth-card .btn-primary {
+    padding: 14px 18px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 10px;
+    margin-top: 8px;
+    height: auto;
+}
+
+.auth-card .btn-success {
+    padding: 14px 18px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 10px;
+    margin-top: 8px;
+    height: auto;
+}
+
+.auth-card .mb-3 {
+    margin-bottom: 20px;
+}
+
+.auth-card .text-center {
+    margin-bottom: 30px;
+}
+
+.auth-card .text-center i {
+    font-size: 56px;
+    margin-bottom: 15px;
+}
+
+.auth-card .text-center h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.auth-card .text-center p {
+    font-size: 0.95rem;
+    color: #999;
+}
+
+.auth-card hr {
+    margin: 28px 0;
+    opacity: 0.5;
+}
+
+.auth-card .text-muted {
+    font-size: 0.95rem;
+}
+
+.auth-card a {
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.auth-card a:hover {
+    text-decoration: underline;
 }
 
 /* ===== DASHBOARD PAGE ===== */
@@ -78,6 +187,7 @@ html, body {
 .navbar-brand {
     font-size: 1.5rem;
     letter-spacing: 0.5px;
+    font-weight: 700;
 }
 
 /* ===== CARDS ===== */
@@ -115,7 +225,13 @@ html, body {
 .list-group-item.active {
     background-color: var(--primary);
     border-color: var(--primary);
+    color: white;
     box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+.list-group-item.active h6,
+.list-group-item.active small {
+    color: white;
 }
 
 /* ===== TASK ITEMS ===== */
@@ -164,12 +280,14 @@ html, body {
     height: 24px;
     cursor: pointer;
     accent-color: var(--success);
+    flex-shrink: 0;
 }
 
 .task-text {
     flex: 1;
     font-size: 1rem;
     color: var(--dark);
+    word-break: break-word;
 }
 
 .task-priority {
@@ -177,6 +295,7 @@ html, body {
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 600;
+    flex-shrink: 0;
 }
 
 .task-priority.high {
@@ -197,10 +316,11 @@ html, body {
 .task-actions {
     display: flex;
     gap: 8px;
+    flex-shrink: 0;
 }
 
 .task-actions .btn-sm {
-    padding: 4px 10px;
+    padding: 6px 12px;
     font-size: 0.85rem;
     border-radius: 6px;
 }
@@ -220,6 +340,32 @@ html, body {
 
 .btn-sm {
     border-radius: 6px;
+}
+
+.btn-group .btn {
+    border-radius: 0;
+}
+
+.btn-group .btn:first-child {
+    border-radius: 6px 0 0 6px;
+}
+
+.btn-group .btn:last-child {
+    border-radius: 0 6px 6px 0;
+}
+
+/* ===== FORMS ===== */
+.form-control,
+.form-select {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
 }
 
 /* ===== TOAST ===== */
@@ -254,6 +400,11 @@ html, body {
     color: #333;
 }
 
+.toast.bg-info {
+    background-color: var(--info) !important;
+    color: white;
+}
+
 /* ===== MODAL ===== */
 .modal-header {
     border-radius: 12px 12px 0 0;
@@ -264,6 +415,17 @@ html, body {
     border: none;
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.modal-footer {
+    border: none;
+    padding: 20px 30px;
+    background: #f8f9fa;
+    border-radius: 0 0 12px 12px;
 }
 
 /* ===== ANIMATIONS ===== */
@@ -283,18 +445,49 @@ html, body {
 }
 
 /* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .auth-card .card-body {
+        padding: 40px 30px;
+    }
+
+    .auth-card .text-center i {
+        font-size: 48px;
+    }
+
+    .auth-card .text-center h2 {
+        font-size: 24px;
+    }
+}
+
 @media (max-width: 768px) {
-    .auth-container {
-        padding: 20px;
+    .auth-body {
+        padding: 15px;
+    }
+
+    .auth-card {
+        max-width: 100%;
+    }
+
+    .auth-card .card-body {
+        padding: 35px 25px;
+    }
+
+    .auth-card .text-center i {
+        font-size: 40px;
+    }
+
+    .auth-card .text-center h2 {
+        font-size: 22px;
+    }
+
+    .auth-card .form-control,
+    .auth-card .btn {
+        font-size: 16px;
+        padding: 12px 14px;
     }
 
     .card-body {
-        padding: 1.5rem;
-    }
-
-    .auth-card .form-control-lg,
-    .auth-card .btn-lg {
-        font-size: 1rem;
+        padding: 1.25rem;
     }
 
     .task-item {
@@ -309,5 +502,32 @@ html, body {
 
     .navbar-text {
         display: none;
+    }
+
+    .modal-body,
+    .modal-footer {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .auth-card .card-body {
+        padding: 30px 20px;
+    }
+
+    .auth-card .text-center i {
+        font-size: 36px;
+    }
+
+    .auth-card .text-center h2 {
+        font-size: 20px;
+    }
+
+    .auth-card .mb-3 {
+        margin-bottom: 16px;
+    }
+
+    .auth-card hr {
+        margin: 20px 0;
     }
 }
