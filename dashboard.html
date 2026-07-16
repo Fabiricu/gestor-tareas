@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskManager - Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-body">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-tasks"></i> TaskManager
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="ms-auto">
+                    <span class="navbar-text text-light me-3">
+                        <i class="fas fa-user-circle"></i> 
+                        <span id="userNameDisplay">Usuario</span>
+                    </span>
+                    <button class="btn btn-light btn-sm" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid py-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            <i class="fas fa-list text-primary"></i> Mis Listas
+                        </h5>
+                        <div id="listContainer" class="list-group list-group-flush">
+                            <!-- Las listas se cargarán aquí -->
+                        </div>
+                        <button 
+                            class="btn btn-primary btn-sm w-100 mt-3" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#newListModal"
+                        >
+                            <i class="fas fa-plus"></i> Nueva Lista
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Estadísticas -->
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            <i class="fas fa-chart-pie text-info"></i> Estadísticas
+                        </h5>
+                        <div class="mb-2">
+                            <small class="text-muted">Total de Tareas</small>
+                            <p class="h5 mb-0" id="statTotal">0</p>
+                        </div>
+                        <div class="mb-2">
+                            <small class="text-muted">Completadas</small>
+                            <p class="h5 mb-0 text-success" id="statCompleted">0</p>
+                        </div>
+                        <div>
+                            <small class="text-muted">Pendientes</small>
+                            <p class="h5 mb-0 text-warning" id="statPending">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="col-md-9">
+                <div id="emptyState" class="text-center py-5">
+                    <i class="fas fa-inbox" style="font-size: 64px; color: #ccc;"></i>
+                    <p class="text-muted mt-3">Selecciona una lista o crea una nueva para comenzar</p>
+                </div>
+
+                <div id="taskPanel" style="display: none;">
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h3 id="listTitle" class="mb-1">
+                                <i class="fas fa-list-check"></i> 
+                            </h3>
+                            <small id="listDescription" class="text-muted"></small>
+                        </div>
+                        <button 
+                            class="btn btn-danger btn-sm" 
+                            id="deleteListBtn"
+                        >
+                            <i class="fas fa-trash"></i> Eliminar Lista
+                        </button>
+                    </div>
+
+                    <!-- Add Task Form -->
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body">
+                            <form id="addTaskForm">
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            id="taskInput" 
+                                            placeholder="Nueva tarea..."
+                                            required
+                                        >
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select" id="prioritySelect">
+                                            <option value="low">🟢 Baja</option>
+                                            <option value="medium" selected>🟡 Media</option>
+                                            <option value="high">🔴 Alta</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fas fa-plus"></i> Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="btn-group w-100 mb-3" role="group">
+                        <input type="radio" class="btn-check" name="taskFilter" id="filterAll" value="all" checked>
+                        <label class="btn btn-outline-primary" for="filterAll">
+                            <i class="fas fa-list"></i> Todas
+                        </label>
+
+                        <input type="radio" class="btn-check" name="taskFilter" id="filterPending" value="pending">
+                        <label class="btn btn-outline-warning" for="filterPending">
+                            <i class="fas fa-clock"></i> Pendientes
+                        </label>
+
+                        <input type="radio" class="btn-check" name="taskFilter" id="filterCompleted" value="completed">
+                        <label class="btn btn-outline-success" for="filterCompleted">
+                            <i class="fas fa-check"></i> Completadas
+                        </label>
+                    </div>
+
+                    <!-- Tasks List -->
+                    <div id="tasksContainer">
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle"></i> No hay tareas en esta lista
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: New List -->
+    <div class="modal fade" id="newListModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-folder-plus"></i> Nueva Lista
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="newListForm">
+                        <div class="mb-3">
+                            <label for="listName" class="form-label">Nombre de la Lista</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="listName" 
+                                placeholder="Ej: Compras, Trabajo, etc."
+                                required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="listDesc" class="form-label">Descripción (Opcional)</label>
+                            <textarea 
+                                class="form-control" 
+                                id="listDesc" 
+                                rows="3" 
+                                placeholder="Describe el propósito de esta lista..."
+                            ></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="createListBtn">
+                        <i class="fas fa-plus"></i> Crear Lista
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Edit Task -->
+    <div class="modal fade" id="editTaskModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">
+                        <i class="fas fa-edit"></i> Editar Tarea
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editTaskForm">
+                        <div class="mb-3">
+                            <label for="editTaskInput" class="form-label">Descripción de la Tarea</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="editTaskInput" 
+                                required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPriority" class="form-label">Prioridad</label>
+                            <select class="form-select" id="editPriority">
+                                <option value="low">🟢 Baja</option>
+                                <option value="medium">🟡 Media</option>
+                                <option value="high">🔴 Alta</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-warning" id="saveTaskBtn">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="toastContainer"></div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
